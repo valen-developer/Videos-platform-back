@@ -34,27 +34,38 @@ export class GetVideoController implements Controller {
 
       const videoSize = fs.statSync(videoPath).size;
 
-      const CHUCK_SIZE = 10 ** 6; // 1MB
+      if (range) {
+        const rangeStringParts = range.replace(/bytes=/, '').split('-');
 
-      const startRange = Number(range?.replace(/\D/g, '') ?? 0);
-      const endRange = Math.min(startRange + CHUCK_SIZE, videoSize - 1);
-      const contentLength = endRange - startRange + 1;
+        const bytesStart = parseInt(rangeStringParts[0]);
+        const bytesEnd = rangeStringParts[1]
+          ? parseInt(rangeStringParts[1])
+          : videoSize - 1;
+
+        const CHUCK_SIZE = bytesEnd - bytesStart + 1; // 1MB
+
+        const videoStream = fs.createReadStream(videoPath, {
+          start: bytesStart,
+          end: bytesEnd,
+        });
+        const headers = {
+          'Content-Range': `bytes ${bytesStart}-${bytesEnd}/${videoSize}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': CHUCK_SIZE,
+          'Content-Type': 'video/mp4',
+        };
+        res.writeHead(206, headers);
+
+        videoStream.pipe(res);
+      }
 
       const headers = {
-        'Content-Range': `bytes ${startRange}-${endRange}/${videoSize}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': contentLength,
+        'Content-Length': videoSize,
         'Content-Type': 'video/mp4',
       };
 
-      res.writeHead(206, headers);
-
-      const videoStream = fs.createReadStream(videoPath, {
-        start: startRange,
-        end: endRange,
-      });
-
-      videoStream.pipe(res);
+      res.writeHead(200, headers);
+      fs.createReadStream(videoPath).pipe(res);
     } catch (error) {
       errorHandler(res, error, 'get video file controller');
     }
