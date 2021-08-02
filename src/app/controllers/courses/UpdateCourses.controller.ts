@@ -20,8 +20,6 @@ export class UpdateCoursesController implements Controller {
 
       const courses = await courseFolderUpdater.update();
 
-      console.log(courses);
-
       const courseCreator: CourseCreator = container.get(
         CourseUsesCases.CourseCreator
       );
@@ -33,20 +31,25 @@ export class UpdateCoursesController implements Controller {
       );
 
       courses.map(async (c) => {
-        c.sections.map(async (s) => {
-          sectionCreator.create(s);
-          s.videos.forEach((v) => {
-            videoCreator.create(v);
-          });
-        });
+        courseCreator
+          .create(c)
+          .then(() => {
+            c.sections.map(async (s) => {
+              sectionCreator.create(s);
+              s.videos.forEach((v) => {
+                videoCreator.create(v);
+              });
+            });
 
-        c.videos.map(async (v) => {
-          videoCreator.create(v).catch((err) => {
-            console.log(err);
+            c.videos.map(async (v) => {
+              videoCreator.create(v).catch((err) => {
+                console.log(err);
+              });
+            });
+          })
+          .catch((err) => {
+            console.log('El curso ya existe');
           });
-        });
-
-        courseCreator.create(c);
       });
 
       res.json({ ok: true });

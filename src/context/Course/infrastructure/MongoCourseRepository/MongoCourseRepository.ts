@@ -10,7 +10,6 @@ export class MongoCourseRepository implements CourseRepository {
     try {
       await courseMongo.save();
     } catch (error) {
-      console.log(error);
       const keyPattern = error.keyPattern;
       if (!keyPattern) {
         throw new HTTPException(

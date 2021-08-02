@@ -7,9 +7,6 @@ export const errorHandler = (res: Response, error: any, service: string) => {
   if (error.errors) error = error.errors[0];
   if (error instanceof HTTPException) statusCode = error.statusCode;
 
-  console.log(service);
-  console.log(error);
-
   res.status(statusCode).json({
     ok: false,
     error: error.message,
