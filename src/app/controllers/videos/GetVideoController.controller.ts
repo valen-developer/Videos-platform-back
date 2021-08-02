@@ -30,7 +30,9 @@ export class GetVideoController implements Controller {
       );
 
       const video = await videoFinder.getByUuid(videoUuid as string);
-      const videoPath = path.normalize(path.join(video.path.value));
+      const videoPath = path.normalize(
+        path.join(enviroment.courseFolderPath, video.path.value)
+      );
 
       const videoSize = fs.statSync(videoPath).size;
 
@@ -57,6 +59,7 @@ export class GetVideoController implements Controller {
         res.writeHead(206, headers);
 
         videoStream.pipe(res);
+        return;
       }
 
       const headers = {

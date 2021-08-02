@@ -76,7 +76,7 @@ export class CourseFolderUpdater {
                 return new Video({
                   uuid: this.uuidGenerator.generate(),
                   duration,
-                  path: videoPath,
+                  path: path.join(courseFolder, sectionFolder, fileName),
                   title: videoName,
                 });
               })
@@ -118,7 +118,7 @@ export class CourseFolderUpdater {
             return new Video({
               uuid: this.uuidGenerator.generate(),
               duration,
-              path: videoPath,
+              path: path.join(courseFolder, videoName),
               title: videoName,
             });
           })
