@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { title } from 'process';
 
 import { CourseFinder } from '../../../context/Course/application/CourseFinder';
 import { errorHandler } from '../../../helpers/errorHandler';
@@ -16,7 +17,20 @@ export class GetAllCoursesController implements Controller {
 
       const courses = await courseFinder.getAll();
 
-      res.json({ ok: true, courses });
+      console.log(courses);
+      res.json({
+        ok: true,
+        courses: [
+          ...courses.map((c) => {
+            return {
+              uuid: c.uuid,
+              duration: c.duration ?? 0,
+              title: c.title,
+              description: c.description,
+            };
+          }),
+        ],
+      });
     } catch (error) {
       errorHandler(res, error, 'get all courses');
     }

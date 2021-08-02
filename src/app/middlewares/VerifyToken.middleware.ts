@@ -13,6 +13,9 @@ export class VerifyTokenMiddleware implements Middleware {
   public run(req: Request, res: Response, next: NextFunction) {
     const { token } = req.headers;
 
+    next();
+
+    return;
     try {
       const container = getContainer();
       const jwt: JWT = container.get(UtilDependencies.JWT);

@@ -30,7 +30,10 @@ export class GetCourseController implements Controller {
         course: {
           ...course.toObject(),
           videos: course.videos.map((v) => v.toObject()),
-          sections: course.sections.map((s) => s.toObject()),
+          sections: course.sections.map((s) => ({
+            ...s.toObject(),
+            videos: s.videos.map((v) => v.toObject()),
+          })),
         },
       });
     } catch (error) {
