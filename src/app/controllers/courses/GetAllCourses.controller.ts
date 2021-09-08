@@ -17,7 +17,6 @@ export class GetAllCoursesController implements Controller {
 
       const courses = await courseFinder.getAll();
 
-      console.log(courses);
       res.json({
         ok: true,
         courses: [
