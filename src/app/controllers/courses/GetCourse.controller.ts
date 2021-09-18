@@ -10,6 +10,8 @@ export class GetCourseController implements Controller {
   public async run(req: Request, res: Response) {
     const { courseUuid } = req.query;
 
+    console.log(req.headers);
+
     try {
       if (!courseUuid)
         throw new HTTPException(
