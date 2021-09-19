@@ -11,7 +11,6 @@ import { FileUploader } from '../../../context/shared/domain/interfaces/FileUplo
 import { CourseUsesCases } from '../../dic/courseUsesCases';
 import { CourseFinder } from '../../../context/Course/application/CourseFinder';
 import { CourseUpdater } from '../../../context/Course/application/CourseUpdater';
-import { HTTPException } from '../../../context/shared/domain/HTTPException';
 
 export class UpdateCourseImageController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {

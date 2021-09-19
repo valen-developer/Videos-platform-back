@@ -23,6 +23,13 @@ export class VerifyTokenMiddleware implements Middleware {
       );
 
       if (!isValidToken) throw new HTTPException(service, 'invalid token', 401);
+
+      const payload: { uuid: string } = jwt.decode(token as string, {
+        json: true,
+      }) as { uuid: string };
+
+      req.body.uuid = payload.uuid;
+
       next();
     } catch (error) {
       errorHandler(res, error, service);

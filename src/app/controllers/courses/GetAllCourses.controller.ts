@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { title } from 'process';
 
 import { CourseFinder } from '../../../context/Course/application/CourseFinder';
+import { RedisUserCacheRepository } from '../../../context/User/infrastructure/RedisUserCacheRepository';
 import { errorHandler } from '../../../helpers/errorHandler';
 import { CourseUsesCases } from '../../dic/courseUsesCases';
 import { getContainer } from '../../dic/getContainer';

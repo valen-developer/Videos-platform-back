@@ -4,7 +4,7 @@ import { IJWT } from '../domain/interfaces/JWT.interface';
 export class JWT implements IJWT {
   decode(
     token: string,
-    options: object
+    options: jwt.DecodeOptions
   ):
     | string
     | {
