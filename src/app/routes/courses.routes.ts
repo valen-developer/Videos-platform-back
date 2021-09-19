@@ -28,7 +28,11 @@ const upload = multer({
   dest: path.join(__dirname, '/upload'),
 });
 
-courseRouter.put('/course/image', updateImageController.run);
+courseRouter.put(
+  '/course/image',
+  [verifyTokenMiddleware.run],
+  updateImageController.run
+);
 
 courseRouter.post(
   '/course/updatefolder',
@@ -43,4 +47,8 @@ courseRouter.get(
 
 courseRouter.get('/course/poster', posterController.run);
 
-courseRouter.get('/course', getCourseController.run);
+courseRouter.get(
+  '/course',
+  [verifyTokenMiddleware.run],
+  getCourseController.run
+);
