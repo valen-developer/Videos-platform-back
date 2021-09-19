@@ -9,7 +9,7 @@ export class MongoCourseRepository implements CourseRepository {
 
     try {
       await courseMongo.save();
-    } catch (error) {
+    } catch (error: any) {
       const keyPattern = error.keyPattern;
       if (!keyPattern) {
         throw new HTTPException(
@@ -24,6 +24,23 @@ export class MongoCourseRepository implements CourseRepository {
         'mongo course repository:save ',
         `${keys[0]} already exist`,
         400
+      );
+    }
+  }
+
+  public async update(course: Course): Promise<void> {
+    try {
+      const courseDB = await CourseMongoModel.findOneAndUpdate(
+        { uuid: course.uuid.value },
+        course.toObjectWithVideosUuid()
+      );
+
+      await courseDB.save();
+    } catch (error) {
+      throw new HTTPException(
+        'mongo course repository',
+        'image dont updated',
+        500
       );
     }
   }

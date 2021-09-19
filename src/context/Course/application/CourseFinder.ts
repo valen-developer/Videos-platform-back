@@ -15,6 +15,8 @@ export class CourseFinder {
   public async get(uuid: string): Promise<Course> {
     const courseObject = await this.courseRepository.get(uuid);
 
+    console.log(courseObject);
+
     if (!courseObject)
       throw new HTTPException(
         'course finder: get by uuid',
@@ -38,6 +40,7 @@ export class CourseFinder {
       uuid: courseObject.uuid,
       title: courseObject.title,
       description: courseObject.description,
+      imagePath: courseObject.imagePath,
       videos,
       sections,
     });

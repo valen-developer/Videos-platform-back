@@ -1,4 +1,5 @@
 import { CourseSection } from '../../CourseSection/domain/CourseSection.model';
+import { ImagePath } from '../../shared/domain/valueObjects/image.valueObject';
 import { UUID } from '../../shared/domain/valueObjects/uuid.valueObject';
 import { Video } from '../../Video/domain/video.model';
 import { CourseDescription } from './valueObject/CourseDescription.valueObject';
@@ -9,6 +10,7 @@ export class Course {
   public readonly uuid: UUID;
   public readonly title: CourseTitle;
   public readonly description: CourseDescription;
+  public readonly imagePath: ImagePath;
   public videos: Video[] = [];
   private _sections: CourseSection[] = [];
 
@@ -16,6 +18,8 @@ export class Course {
     this.uuid = new UUID(course.uuid);
     this.title = new CourseTitle(course.title);
     this.description = new CourseDescription(course.description);
+    this.imagePath = new ImagePath(course.imagePath);
+
     this.videos = course.videos ?? [];
     this._sections = course.sections ?? [];
   }
@@ -37,11 +41,16 @@ export class Course {
     return this._sections;
   }
 
+  public setImagePath(path: string): void {
+    this.imagePath.setPath(path);
+  }
+
   public toObject(): CourseObject {
     return {
       uuid: this.uuid.value,
       title: this.title.value,
       description: this.description.value,
+      imagePath: this.imagePath.value ?? '',
       duration: this.duration,
       videos: this.videos,
       sections: this.sections,
@@ -78,6 +87,7 @@ export interface CourseObject {
   uuid: string;
   title: string;
   description: string;
+  imagePath?: string;
   duration?: number;
   videos?: Video[];
   sections?: CourseSection[];
@@ -87,6 +97,7 @@ export interface CourseObjectOnlyUuid {
   uuid: string;
   title: string;
   description: string;
+  imagePath?: string;
   duration?: number;
   videos?: string[];
   sections: string[];

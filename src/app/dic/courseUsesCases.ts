@@ -2,6 +2,7 @@ import { IOC } from 'dic-ioc';
 import { CourseCreator } from '../../context/Course/application/CourseCreator';
 import { CourseFinder } from '../../context/Course/application/CourseFinder';
 import { CourseFolderUpdater } from '../../context/Course/application/CourseFolderUpdater';
+import { CourseUpdater } from '../../context/Course/application/CourseUpdater';
 import { CourseRepository } from '../../context/Course/domain/interfaces/CourseRepository';
 import { CourseSectionUsesCases } from './courseSectionUsesCases';
 import { Repositories } from './repositories.injector';
@@ -12,6 +13,7 @@ export enum CourseUsesCases {
   CourseCreator = 'CourseCreator',
   CourseFinder = 'CourseFinder',
   CourseFolderUpdater = 'CourseFolderUpdater',
+  CourseUpdater = 'CourseUpdater',
 }
 
 export const injectCourseUsesCases = (container: IOC): IOC => {
@@ -22,6 +24,11 @@ export const injectCourseUsesCases = (container: IOC): IOC => {
   container.setService(
     CourseUsesCases.CourseCreator,
     () => new CourseCreator(courseRepository)
+  );
+
+  container.setService(
+    CourseUsesCases.CourseUpdater,
+    () => new CourseUpdater(courseRepository)
   );
 
   container.setService(

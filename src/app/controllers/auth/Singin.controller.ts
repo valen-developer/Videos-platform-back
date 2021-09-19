@@ -17,6 +17,8 @@ export class SigninController implements Controller {
   public async run(req: Request, res: Response) {
     const { email, password } = req.body;
 
+    console.log(email, password);
+
     try {
       const container = getContainer();
       const crypt: ICrypt = container.get(UtilDependencies.Crypt);

@@ -26,6 +26,7 @@ export class GetAllCoursesController implements Controller {
               duration: c.duration ?? 0,
               title: c.title,
               description: c.description,
+              imagePath: c.imagePath,
             };
           }),
         ],
