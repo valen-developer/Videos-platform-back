@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'fs';
 
 import { HTTPException } from '../domain/HTTPException';
 
-export const aviableExtensions = ['jpg', 'jpeg', 'png'];
+export const aviableExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
 export class FileGetter {
   public getImage(imagePath: string): Buffer {

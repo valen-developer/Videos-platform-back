@@ -10,21 +10,18 @@ import { Controller } from '../controlles.interface';
 
 export class GetCoursePosterController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const { imagePath } = req.body;
+    const { image } = req.query as any;
     const destinationPath = path.join(enviroment.courseFolderPath, '/courses');
 
     try {
-      if (!imagePath)
-        throw new HTTPException('no image', 'no image found', 404);
+      if (!image) throw new HTTPException('no image', 'no image found', 404);
 
-      const existFile = fs.existsSync(
-        path.join(destinationPath, imagePath ?? '')
-      );
+      const existFile = fs.existsSync(path.join(destinationPath, image ?? ''));
 
       if (!existFile)
         throw new HTTPException('no image', 'no image found', 404);
 
-      res.sendFile(path.join(destinationPath, imagePath));
+      res.sendFile(path.join(destinationPath, image));
     } catch (error) {
       errorHandler(res, error, 'GetCoursePosterController');
     }
