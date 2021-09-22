@@ -24,10 +24,6 @@ const getCourseController = new GetCourseController();
 const updateImageController = new UpdateCourseImageController();
 const posterController = new GetCoursePosterController();
 
-const upload = multer({
-  dest: path.join(__dirname, '/upload'),
-});
-
 courseRouter.put(
   '/course/image',
   [verifyTokenMiddleware.run],
@@ -45,7 +41,11 @@ courseRouter.get(
   getAllCoursesController.run
 );
 
-courseRouter.get('/course/poster', posterController.run);
+courseRouter.get(
+  '/course/poster',
+  [verifyTokenMiddleware.run],
+  posterController.run
+);
 
 courseRouter.get(
   '/course',
