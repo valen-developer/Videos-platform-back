@@ -13,7 +13,7 @@ const verifyTokenMiddleware = new VerifyTokenMiddleware();
 const getAllUsersController = new GetAllUsersController();
 
 usersRouter.get(
-  '',
-  [verifyTokenMiddleware.run, verifyRoleMiddleware.run],
+  '/user/all',
+  // [verifyTokenMiddleware.run, verifyRoleMiddleware.run],
   getAllUsersController.run
 );
