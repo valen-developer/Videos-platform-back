@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { CourseCreator } from '../../../context/Course/application/CourseCreator';
 import { CourseFolderUpdater } from '../../../context/Course/application/CourseFolderUpdater';
 import { CourseSectionCreator } from '../../../context/CourseSection/application/CourseSectionCreator';
@@ -10,7 +11,7 @@ import { getContainer } from '../../dic/getContainer';
 import { VideosUsesCases } from '../../dic/videoUsesCases';
 import { Controller } from '../controlles.interface';
 
-export class UpdateCoursesController implements Controller {
+export class UpdateCoursesFolderController implements Controller {
   public async run(req: Request, res: Response) {
     try {
       const container = getContainer();

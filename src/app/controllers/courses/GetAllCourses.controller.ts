@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { title } from 'process';
 
 import { CourseFinder } from '../../../context/Course/application/CourseFinder';
+import { RedisUserCacheRepository } from '../../../context/User/infrastructure/RedisUserCacheRepository';
 import { errorHandler } from '../../../helpers/errorHandler';
 import { CourseUsesCases } from '../../dic/courseUsesCases';
 import { getContainer } from '../../dic/getContainer';
@@ -26,6 +27,7 @@ export class GetAllCoursesController implements Controller {
               duration: c.duration ?? 0,
               title: c.title,
               description: c.description,
+              imagePath: c.imagePath,
             };
           }),
         ],

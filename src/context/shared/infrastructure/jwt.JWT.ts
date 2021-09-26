@@ -4,7 +4,7 @@ import { IJWT } from '../domain/interfaces/JWT.interface';
 export class JWT implements IJWT {
   decode(
     token: string,
-    options: object
+    options: jwt.DecodeOptions
   ):
     | string
     | {
@@ -21,6 +21,7 @@ export class JWT implements IJWT {
     return jwt.sign(payload, secret, { ...options });
   }
   verify(token: string, secret: string, options?: object): boolean {
+    if (!token) return false;
     const jwtResponse = jwt.verify(token, secret, options);
 
     if (!jwtResponse) return false;

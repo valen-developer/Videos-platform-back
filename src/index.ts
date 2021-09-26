@@ -7,11 +7,16 @@ initServerDependencies();
 import { Server } from './app/server';
 import { router } from './app/routes/index.routing';
 
+import { createRedisClient } from './helpers/connectRedis';
+
 const server = new Server(3000);
 // set middlewares
 server.app.use(urlencoded({ extended: false }));
 server.app.use(json());
 server.app.use(cors());
+
+// Connect redis
+export const redisClient = createRedisClient();
 
 // Set routes
 server.app.use(router);

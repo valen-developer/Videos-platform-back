@@ -16,6 +16,9 @@ const CourseSchema = new Schema({
   description: {
     type: String,
   },
+  imagePath: {
+    type: String,
+  },
   duration: {
     type: Number,
     default: 0,
