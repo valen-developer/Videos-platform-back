@@ -8,6 +8,7 @@ import { Server } from './app/server';
 import { router } from './app/routes/index.routing';
 
 import { createRedisClient } from './helpers/connectRedis';
+import { enviroment } from './app/config/enviroment';
 
 const server = new Server(3000);
 // set middlewares
@@ -22,3 +23,5 @@ export const redisClient = createRedisClient();
 server.app.use(router);
 
 server.start();
+
+console.log(enviroment);

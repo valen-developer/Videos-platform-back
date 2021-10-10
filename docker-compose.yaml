@@ -1,0 +1,80 @@
+version: '3.1'
+
+services:
+  # Serve API
+  nodejs-valentinvalverde.com:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: videplatform-back
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_HOST=mongodb://mongo:27017/${DB}
+      - REDIS_HOST=redis
+      - PORT=3000
+
+    expose:
+      - '3000'
+    restart: unless-stopped
+    command: ['node', 'dist/index.js']
+    links:
+      - redis:redis
+      - mongo:mongo
+    networks:
+      videoplatform-net:
+        ipv4_address: 172.16.238.12
+        aliases:
+          - back
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB}
+    networks:
+      videoplatform-net:
+        ipv4_address: 172.16.238.11
+        aliases:
+          - mongo
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASS}
+    volumes:
+      - $PWD/redis/redis-data:/var/lib/redis
+      - $PWD/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    networks:
+      videoplatform-net:
+        ipv4_address: 172.16.238.10
+        aliases:
+          - redis
+
+  mongo-express:
+    image: mongo-express:0.54
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_AUTH_USERNAME: ${DATABASE_USER}
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${DATABASE_PASSWORD}
+    networks:
+      videoplatform-net:
+        ipv4_address: 172.16.238.15
+
+networks:
+  videoplatform-net:
+    name: videoplatform-net
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
+          gateway: 172.16.238.1

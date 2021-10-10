@@ -5,12 +5,14 @@ import { CourseMongoModel } from './mongoCourseModel';
 
 export class MongoCourseRepository implements CourseRepository {
   public async create(course: Course): Promise<void> {
-    const courseMongo = new CourseMongoModel(course.toObjectWithVideosUuid());
+    const courseMongo: any = new CourseMongoModel(
+      course.toObjectWithVideosUuid()
+    );
 
     try {
       await courseMongo.save();
     } catch (error: any) {
-      const keyPattern = error.keyPattern;
+      const keyPattern: any = error.keyPattern;
       if (!keyPattern) {
         throw new HTTPException(
           'mongo course repository:save ',
@@ -30,7 +32,7 @@ export class MongoCourseRepository implements CourseRepository {
 
   public async update(course: Course): Promise<void> {
     try {
-      const courseDB = await CourseMongoModel.findOneAndUpdate(
+      const courseDB: any = await CourseMongoModel.findOneAndUpdate(
         { uuid: course.uuid.value },
         course.toObjectWithVideosUuid()
       );
@@ -56,7 +58,7 @@ export class MongoCourseRepository implements CourseRepository {
 
   public async get(uuid: string): Promise<CourseObjectOnlyUuid> {
     try {
-      const course = await CourseMongoModel.findOne({ uuid });
+      const course: any = await CourseMongoModel.findOne({ uuid });
       return course as CourseObjectOnlyUuid;
     } catch (error) {
       throw new HTTPException(

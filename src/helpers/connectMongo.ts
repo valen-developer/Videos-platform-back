@@ -3,7 +3,7 @@ import { enviroment } from '../app/config/enviroment';
 
 export const connectMongoDB = () => {
   mongoose.connect(
-    `mongodb://localhost:27017/videoplatform`,
+    enviroment.db.host,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -26,5 +26,7 @@ export const connectMongoDB = () => {
     console.log(error);
   });
 
-  db.once('open', () => {});
+  db.once('open', () => {
+    console.log('Mongo ABIERTO');
+  });
 };
