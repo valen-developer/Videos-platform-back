@@ -9,8 +9,6 @@ export class RedisUserCacheRepository implements UserCacheRepository {
       redisClient.get(uuid, (err, data) => {
         if (err || !data) resolve(null);
 
-        console.log(data);
-
         if (data) resolve(JSON.parse(data));
       });
     });

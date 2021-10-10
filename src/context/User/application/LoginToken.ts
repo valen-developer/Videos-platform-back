@@ -8,8 +8,6 @@ export class LoginToken {
   public async login(uuid: string): Promise<User> {
     const user = await this.getFromCache(uuid);
 
-    console.log('user: ', user);
-
     if (!user)
       throw new HTTPException('user from cache', 'not valid user', 401);
 

@@ -18,13 +18,20 @@ export class SigninController implements Controller {
   public async run(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    console.log(email, password);
-
     try {
       const container = getContainer();
       const loginUser: LoginUser = container.get(UserUsesCases.LoginUser);
 
       const user = await loginUser.login(email, password);
+      const isUserValidated = user.validated;
+
+      if (!isUserValidated) {
+        throw new HTTPException(
+          'Signin: user invalidated',
+          'user dont validated',
+          401
+        );
+      }
 
       const jwt: JWT = container.get(UtilDependencies.JWT);
       const token = jwt.sign({ uuid: user.uuid.value }, enviroment.token.seed, {

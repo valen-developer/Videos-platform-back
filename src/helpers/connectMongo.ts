@@ -26,7 +26,5 @@ export const connectMongoDB = () => {
     console.log(error);
   });
 
-  db.once('open', () => {
-    console.log('Connect to DB');
-  });
+  db.once('open', () => {});
 };

@@ -7,6 +7,6 @@ import { videoRouter } from './videos.routes';
 export const router: Router = Router();
 
 router.use('/api', authRouter);
-router.use('/api', usersRouter);
-router.use('/api', courseRouter);
-router.use('/api', videoRouter);
+router.use('/api', [], usersRouter);
+router.use('/api', [], courseRouter);
+router.use('/api', [], videoRouter);

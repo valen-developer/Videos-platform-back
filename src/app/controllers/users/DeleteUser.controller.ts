@@ -1,31 +1,28 @@
 import { Request, Response } from 'express';
-import { LoginToken } from '../../../context/User/application/LoginToken';
+import { UserEliminator } from '../../../context/User/application/UserEliminator';
 import { errorHandler } from '../../../helpers/errorHandler';
 import { getContainer } from '../../dic/getContainer';
 import { UserUsesCases } from '../../dic/userUseCases.injector';
 
 import { Controller } from '../controlles.interface';
 
-export class SigninTokenController implements Controller {
+export class DeleteUserController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const { uuid } = req.body;
+    const { userUuid } = req.query;
 
     try {
       const container = getContainer();
-      const loginToken: LoginToken = container.get(
-        UserUsesCases.LoginUserToken
+      const userDeleter: UserEliminator = container.get(
+        UserUsesCases.UserEliminator
       );
 
-      const user = await loginToken.login(uuid);
+      await userDeleter.delete(userUuid as string);
 
       res.json({
         ok: true,
-        user: user.toObjectWithoutPassword(),
       });
     } catch (error) {
-      console.log(error);
-
-      errorHandler(res, error, 'Signin token');
+      errorHandler(res, error, 'user delete controller');
     }
   }
 }

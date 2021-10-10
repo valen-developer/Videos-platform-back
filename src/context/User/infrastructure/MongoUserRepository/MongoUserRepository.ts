@@ -40,6 +40,8 @@ export class MongoUserRepository implements UserRepository {
   }
 
   public async update(user: User): Promise<User> {
+    console.log(user.toObject());
+
     try {
       await UserMongoModel.findOneAndUpdate(
         { uuid: user.uuid.value },
@@ -65,7 +67,8 @@ export class MongoUserRepository implements UserRepository {
         userMongo.name,
         userMongo.email,
         userMongo.password,
-        userMongo.role
+        userMongo.role,
+        userMongo.validated
       );
     } catch (error) {
       throw new HTTPException(
@@ -102,7 +105,8 @@ export class MongoUserRepository implements UserRepository {
       const usersMongo: UserObject[] = await UserMongoModel.find();
 
       return usersMongo.map(
-        (u) => new User(u.uuid, u.name, u.email, u.password, u.role)
+        (u) =>
+          new User(u.uuid, u.name, u.email, u.password, u.role, u.validated)
       );
     } catch (error) {
       return [];

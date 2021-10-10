@@ -49,8 +49,6 @@ export class UpdateCourseImageController implements Controller {
         const course = await courseFinder.get(courseUuid);
         course.setImagePath(imagePath);
 
-        console.log(course);
-
         await CourseUpdater.update(course);
 
         res.status(201).json({ ok: true });

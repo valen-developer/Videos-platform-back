@@ -61,6 +61,10 @@ export class User {
     this._validated = true;
   }
 
+  public toggleValidate(): void {
+    this._validated = !this._validated;
+  }
+
   public inValidate(): void {
     this._validated = false;
   }

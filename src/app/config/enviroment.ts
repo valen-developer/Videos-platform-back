@@ -9,6 +9,7 @@ export const enviroment = {
   },
   mailer: {
     mail: process.env.NEWSPAPER_MAIL || 'email@email.com',
+    adminMail: process.env.ADMIN_MAIL || 'email@email.com',
     password: process.env.MAIL_PASSWORD || 'pass',
     host: process.env.MAIL_HOST || 'gmail',
     port: process.env.MAIL_PORT || 553,
